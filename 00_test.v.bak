@@ -1,0 +1,104 @@
+module mealy_task5(rst,clk,x,z);
+input rst,clk,x;
+output z;
+
+parameter S0=3'b000,S1=3'b001,S2=3'b010,S3=3'b011,S4=3'b100;
+reg z;
+reg [2:0] state,next_state;
+
+always @(state or x)
+begin : FSM_COMBO
+next_state=S0;
+case(state)
+ S0:
+	if(x==1'b0)begin
+next_state=S1;
+                               z=1'b0;
+	  end else begin
+                               next_state=S3;
+                               z=1'b0;
+ end
+
+S1:
+if(x==1'b0) begin
+		 next_state=S2;
+		z=1'b0;
+	  end else begin
+                               next_state=S3;
+                               z=1'b0;
+	end
+
+S2:
+if(x==1'b0) begin
+		 next_state=S2;
+                               z=1'b0;
+	  end else begin
+                               next_state=S3;
+                               z=1'b1;
+		  end
+
+S3:
+if(x==1'b0) begin
+		next_state=S1;
+                               z=1'b0;
+	  end else begin
+                               next_state=S4;
+                               z=1'b0;
+  end
+
+S4:
+if(x==1'b0) begin
+		   next_state=S1;
+                                 z=1'b1;
+	  end else begin
+                               next_state=S4;
+                               z=1'b1;
+end
+
+default: begin
+		next_state=50;
+		z=1'b0;
+end
+	 endcase
+end
+
+always @(posedge clk)
+begin : FSM_SEQ
+		if(rst==1'b1) state<=50;
+		else state<=next_state;
+end
+endmodule
+
+module me_tb();
+                 reg rst,clk,x;
+                 wire z;
+
+                 task_5_me me_inst(rst,clk,x,z);
+                
+
+                 always #5 clk=~clk;
+                 initial begin
+                            clk=1'b0;rst=1'b1;x=0;
+                            $monitor($time,"x=%b,z=%b",x,z);
+                            #25 rst=1'b0;x=1'b0;
+                            #10 x=1'b0;
+                            #10 x=1'b0;
+                            #10 x=1'b1;
+                            #10 x=1'b1;
+                            #10 x=1'b1;
+                            #10 x=1'b0;
+                            #10 x=1'b1;
+                            #10 x=1'b0;
+                            #10 x=1'b1;
+                            #10 x=1'b0;
+                            #10 x=1'b1;
+                            #10 x=1'b0;
+                            #10 x=1'b0;
+                            #10 x=1'b0;
+                            #10 x=1'b1;
+                            #10 x=1'b1;
+                            #10 x=1'b0;
+                            $display("Abhishek Iyer| 19BEC0806");
+$stop;
+end 
+endmodule

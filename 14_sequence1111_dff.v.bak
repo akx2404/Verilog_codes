@@ -1,0 +1,61 @@
+module mux2(y,s,a,b);
+input a,b,s;
+output y;
+reg y;
+always @(s or a or b)
+begin
+if(s==0)
+y=a;
+if(s==1)
+y=b;
+end
+endmodule
+module mux8(y,s,d);
+input [7:0] d;
+input [2:0] s;
+output y;
+wire [5:0] w;
+mux2 m1(w[0],s[0],d[0],d[1]);
+mux2 m2(w[1],s[0],d[2],d[3]);
+mux2 m3(w[2],s[0],d[4],d[5]);
+mux2 m4(w[3],s[0],d[6],d[7]);
+mux2 m5(w[4],s[1],w[0],w[1]);
+mux2 m6(w[5],s[1],w[2],w[3]);
+mux2 m7(y,s[2],w[4],w[5]);
+endmodule
+module mux32(y,s,d);
+input [31:0] d;
+input [5:0] s;
+output y;
+wire [7:0] w;
+mux8 m1(d[7:0],s[2:0],w[0]);
+mux8 m2(d[15:8],s[2:0],w[1]);
+mux8 m3(d[23:16],s[2:0],w[2]);
+mux8 m4(d[31:24],s[2:0],w[3]);
+assign w[7:4]=4'b0000;
+assign s[5]=1'b0;
+mux8 m5(w[7:0],s[5:3],y);
+endmodule
+module mux32_tb();
+reg [31:0] d;
+reg [5:0] s;
+wire y;
+initial begin
+d=4'd30; s=5'd0;
+#50 s=5'd1;
+#50 s=5'd2;
+#50 s=5'd4;
+#50 s=5'd7;
+#50 s=5'd9;
+#50 s=5'd11;
+#50 s=5'd15;
+#50 s=5'd25;
+#50 s=5'd29;
+#50 s=5'd30;
+#50 s=5'd4;
+#50 s=5'd13;
+#50 s=5'd17;
+end
+endmodule
+  
+  

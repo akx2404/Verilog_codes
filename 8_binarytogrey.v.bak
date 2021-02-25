@@ -1,0 +1,10 @@
+module greyToBinary(a0,a1,a2,a3,g0,g1,g2,g3);
+  input a0,a1,a2,a3;
+  output g0,g1,g2,g3;
+  
+  assign g0=a0;
+  assign g1=g0^a1;
+  assign g2=g1^a2;
+  assign g3=g2^a3;
+  
+endmodule

@@ -1,0 +1,24 @@
+module decoder38(inp,Data_out,enable);
+    input [2:0] inp;
+    input enable;
+    output [7:0] Data_out;
+    reg [7:0] Data_out;
+
+    
+    always @(inp or enable)
+    if(enable==1)   
+      case (inp)   
+        3'b000 : Data_out = 8'b01111111;
+        3'b001 : Data_out = 8'b10111111;
+        3'b010 : Data_out = 8'b11011111;
+        3'b011 : Data_out = 8'b11101111;
+        3'b100 : Data_out = 8'b11110111;
+        3'b101 : Data_out = 8'b11111011;
+        3'b110 : Data_out = 8'b11111101;
+        3'b111 : Data_out = 8'b11111110;
+      endcase
+    else if(enable ==0)
+      Data_out = 8'b11111111; 
+      
+endmodule
+

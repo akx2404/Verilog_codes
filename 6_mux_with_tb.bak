@@ -1,0 +1,5 @@
+module Prob(output F, input A, B, C, D);
+assign F = (~A&~B&~C&~D) | (~A&~B&~C&D) | (~A&~B&C&~D) | (~A&B&~C&~D) | (~A&B&~C&D) |(~A&B&C&~D) | (A&~B&~C&~D) | (A&~B&~C&D) | (A&~B&C&~D) | (A&~B&C&D) | (A&B&~C&D) |
+(A&B&C&~D) | (A&B&C&D);
+endmodule;
+
